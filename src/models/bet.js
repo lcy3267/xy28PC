@@ -12,12 +12,6 @@ export default {
     records: []
   },
 
-  subscriptions: {
-    setup({ dispatch, history }) {
-      dispatch({type: 'records'});
-    },
-  },
-
   effects: {
     *records({ params }, { put }) {
       let rs = yield sendRequest(betRecord.list,params);

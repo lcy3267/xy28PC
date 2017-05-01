@@ -27,10 +27,11 @@ export default class Slider extends Component{
 
   menuList = [
       {
-        title: '用户管理',
+        title: '玩家管理',
         icon: 'switcher',
         child: [
-          {title: '用户列表', router: '/'},
+          {title: '玩家列表', router: '/users/list'},
+          {title: '玩家充值记录', router: '/recharge/list'},
         ]
       },
       {
@@ -45,7 +46,6 @@ export default class Slider extends Component{
         title: '财务管理',
         icon: 'switcher',
         child: [
-          {title: '玩家充值记录', router: '/'},
           {title: '玩家提现审核', router: '/'},
           {title: '玩家提现记录', router: '/'},
           {title: '玩家回水记录', router: '/'},
