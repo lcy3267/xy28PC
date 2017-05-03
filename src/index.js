@@ -16,6 +16,7 @@ const app = dva({
 
 // 3. Model
 app.model(require('./models/bet'));
+app.model(require('./models/lottery'));
 app.model(require('./models/user'));
 app.model(require('./models/recharge'));
 

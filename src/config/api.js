@@ -13,4 +13,7 @@ export default {
   betRecord: {
     list: 'GET /betRecord/list'
   },
+  lottery: {
+    record: 'GET /lottery/record'
+  },
 }

@@ -38,6 +38,7 @@ export default class Slider extends Component{
         title: '下注管理',
         icon: 'appstore',
         child: [
+          {title: '开奖记录', router: '/lotteryRecords'},
           {title: '用户下注记录', router: '/betRecords'},
           {title: '生成自动拖用户', router: '/'},
         ]

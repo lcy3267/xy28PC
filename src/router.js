@@ -10,6 +10,7 @@ const routerConfig = [
     childRoutes: [
       {path: '/index', component: require('./routes/Index')},
       {path: '/betRecords', component: require('./routes/bet/Records')},
+      {path: '/lotteryRecords', component: require('./routes/lottery/LotteryRecords')},
       {path: '/users/list', component: require('./routes/users/UserList')},
       {path: '/recharge/list', component: require('./routes/users/RechargeList')},
     ]

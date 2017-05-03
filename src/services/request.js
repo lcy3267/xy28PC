@@ -63,8 +63,7 @@ export function request(uri, type = "GET", data = {}){
   let headers = new Headers();
   headers.append( 'Accept', 'application/json');
   headers.append( 'Content-Type', 'application/json');
-
-  data.token = getCookie("token");
+  headers.append( 'Token', getCookie("token"));
 
 	let fetchOption = {
     headers,
@@ -88,6 +87,9 @@ export function request(uri, type = "GET", data = {}){
       }
     }
   }
+
+  fetchOption.credentials = 'include';
+  fetchOption.mode = 'cors';
 
   //设置携带cookie
   //fetchOption.credentials = 'include';
