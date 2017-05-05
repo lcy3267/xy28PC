@@ -56,7 +56,7 @@ export default class Slider extends Component{
         title: '系统设置',
         icon: 'setting',
         child: [
-          {title: '赔率设置', router: '/'},
+          {title: '赔率设置', router: '/gameRules'},
           {title: '回水设置', router: '/'},
           {title: '开奖设置', router: '/'},
         ]

@@ -13,6 +13,7 @@ const routerConfig = [
       {path: '/lotteryRecords', component: require('./routes/lottery/LotteryRecords')},
       {path: '/users/list', component: require('./routes/users/UserList')},
       {path: '/recharge/list', component: require('./routes/users/RechargeList')},
+      {path: '/gameRules', component: require('./routes/system/GameRules')},
     ]
   },
   {path: '/login', component: require('./routes/Login')},

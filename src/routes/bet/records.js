@@ -20,7 +20,7 @@ class BetRecords extends Component {
 
   columns = [
     {title: '下注期数', dataIndex: 'serial_number',},
-    {title: '用户', dataIndex: 'bottom_pour_id',},
+    {title: '用户', dataIndex: 'user_account',},
     {
       title: '下注类型', dataIndex: 'bottom_pour_type',
       render: (text)=>betTypeArr[text - 1]
