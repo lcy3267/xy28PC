@@ -27,6 +27,12 @@ export default {
       }else{
         errCallback && errCallback();
       }
+    }, 
+    *updateUserSpeak({params, callback }, { put }){
+      let rs = yield sendRequest(user.updateUserSpeak, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
     },
   },
 

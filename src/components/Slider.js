@@ -30,8 +30,8 @@ export default class Slider extends Component{
         title: '玩家管理',
         icon: 'switcher',
         child: [
-          {title: '玩家列表', router: '/users/list'},
-          {title: '玩家充值记录', router: '/recharge/list'},
+          {title: '玩家列表', router: '/usersList'},
+          {title: '玩家充值记录', router: '/rechargeList'},
         ]
       },
       {
@@ -56,8 +56,9 @@ export default class Slider extends Component{
         title: '系统设置',
         icon: 'setting',
         child: [
+          {title: '房间设置', router: '/rooms'},
           {title: '赔率设置', router: '/gameRules'},
-          {title: '回水设置', router: '/'},
+          {title: '回水规则设置', router: '/rollbackRules'},
           {title: '开奖设置', router: '/'},
         ]
       },

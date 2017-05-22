@@ -11,9 +11,11 @@ const routerConfig = [
       {path: '/index', component: require('./routes/Index')},
       {path: '/betRecords', component: require('./routes/bet/Records')},
       {path: '/lotteryRecords', component: require('./routes/lottery/LotteryRecords')},
-      {path: '/users/list', component: require('./routes/users/UserList')},
-      {path: '/recharge/list', component: require('./routes/users/RechargeList')},
+      {path: '/usersList', component: require('./routes/users/UserList')},
+      {path: '/rechargeList', component: require('./routes/users/RechargeList')},
       {path: '/gameRules', component: require('./routes/system/GameRules')},
+      {path: '/rooms', component: require('./routes/system/Rooms')},
+      {path: '/rollbackRules', component: require('./routes/system/RollbackRules')},
     ]
   },
   {path: '/login', component: require('./routes/Login')},

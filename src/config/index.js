@@ -18,6 +18,19 @@
     await: 0
   },
   betTypeArr: ['大','小','单','双','大单','大双','小单','小双','极大','极小'],
+
+  combineRates: {
+    big: '大',
+    small: '小',
+    single: '单',
+    double: '双',
+    max: '极大',
+    big_single: '大单',
+    big_double: '大双',
+    small_single: '小单',
+    small_double: '小双',
+    min: '极小',
+  },
   //积分变动类型
   changeType: {
     xz: 1,//下注
