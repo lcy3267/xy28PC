@@ -13,9 +13,13 @@ export default {
   },
 
   effects: {
-    *records({ params }, { put }) {
+    *records({ params, callback }, { put }) {
+
+      console.log(params,'-----')
+
       let rs = yield sendRequest(betRecord.list,params);
       if(rs && rs.err_code == 0){
+        callback && callback(rs);
         yield put({ type: 'list', records: rs.records});
       }
     },

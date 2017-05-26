@@ -47,8 +47,7 @@ export default class Slider extends Component{
         title: '财务管理',
         icon: 'switcher',
         child: [
-          {title: '玩家提现审核', router: '/'},
-          {title: '玩家提现记录', router: '/'},
+          {title: '玩家提现记录', router: '/withdrawRecords'},
           {title: '玩家回水记录', router: '/'},
         ]
       },

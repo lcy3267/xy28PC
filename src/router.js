@@ -15,6 +15,7 @@ const routerConfig = [
       {path: '/rechargeList', component: require('./routes/users/RechargeList')},
       {path: '/gameRules', component: require('./routes/system/GameRules')},
       {path: '/rooms', component: require('./routes/system/Rooms')},
+      {path: '/withdrawRecords', component: require('./routes/withdraw/records')},
       {path: '/rollbackRules', component: require('./routes/system/RollbackRules')},
     ]
   },

@@ -9,12 +9,23 @@ class BetRecords extends Component {
   constructor(props) {
     super(props);
     // 初始状态
-    this.state = {};
+    this.state = {
+      records: [],
+      count: 0
+    };
   }
 
   componentWillMount() {
+    this.loadRecords();
+  }
+
+  loadRecords = (params = {pageIndex: 1})=>{
     this.props.dispatch({
-      type: 'bet/records'
+      type: 'bet/records',
+      params,
+      callback: (rs)=>{
+        this.setState({count: rs.count});
+      }
     });
   }
 
@@ -46,6 +57,10 @@ class BetRecords extends Component {
     }
   ];
 
+  nextPage = (pageIndex)=>{
+    this.loadRecords({pageIndex});
+  };
+
   render() {
     let {bet} = this.props;
     return (
@@ -53,7 +68,9 @@ class BetRecords extends Component {
         <div style={{fontSize: 15,height: 30}}>玩家下注记录</div>
         <Table
           rowKey={record => record.bottom_pour_id}
-          dataSource={bet.records} columns={this.columns}/>
+          dataSource={bet.records} columns={this.columns}
+          pagination={{ pageSize: 10, total: this.state.count, onChange:this.nextPage}}
+        />
       </div>
     );
   }

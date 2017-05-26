@@ -12,6 +12,10 @@ export default {
     rechargeIntegral: 'PUT /recharge/adminRecharge',//积分充值
     approveRecharge: 'PUT /recharge/approveRecharge',//积分充值
   },
+  withdraw: {
+    records: "GET /withdraw/records",
+    updateWithdraw: "PUT /withdraw/updateWithdraw",//审核提现
+  },
   betRecord: {
     list: 'GET /betRecord/list'
   },

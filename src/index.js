@@ -20,6 +20,7 @@ app.model(require('./models/lottery'));
 app.model(require('./models/user'));
 app.model(require('./models/recharge'));
 app.model(require('./models/system'));
+app.model(require('./models/withdraw'));
 
 // 4. Router
 app.router(require('./router'));
