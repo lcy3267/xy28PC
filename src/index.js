@@ -21,6 +21,7 @@ app.model(require('./models/user'));
 app.model(require('./models/recharge'));
 app.model(require('./models/system'));
 app.model(require('./models/withdraw'));
+app.model(require('./models/message'));
 
 // 4. Router
 app.router(require('./router'));

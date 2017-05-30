@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Table} from 'antd';
 import {getFrontDate} from '../../utils/formatUtil';
-import {placeType, isWinning, betTypeArr} from '../../config';
+import {placeType, isWinning, combineRates} from '../../config';
 
 class BetRecords extends Component {
   // 构造
@@ -34,7 +34,7 @@ class BetRecords extends Component {
     {title: '用户', dataIndex: 'user_account',},
     {
       title: '下注类型', dataIndex: 'bottom_pour_type',
-      render: (text)=>betTypeArr[text - 1]
+      render: (text, record)=>combineRates[text]?combineRates[text]:record.bottom_pour_number
     },
     {title: '下注金额', dataIndex: 'bottom_pour_money',},
     {

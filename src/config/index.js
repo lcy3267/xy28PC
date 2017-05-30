@@ -1,6 +1,7 @@
 ﻿export default {
   //db 地址
-	apiDomain: "http://localhost:3000",
+	apiDomain: "http://192.168.0.101:3000",
+  ioDomain: "ws:192.168.0.101:3000",
   pageSize: 10, //分页size
   md5Key: 'yuan',//md5加密的前缀
   cookieUserName:"username",
@@ -31,6 +32,7 @@
     small_double: '小双',
     min: '极小',
   },
+
   //积分变动类型
   changeType: {
     xz: 1,//下注

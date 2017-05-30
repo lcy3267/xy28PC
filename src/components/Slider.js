@@ -15,7 +15,7 @@ export default class Slider extends Component{
     this.state = {
       theme: 'dark',
       current: '1',
-      openKeys: ["sub_0","sub_1","sub_2","sub_3"],
+      //openKeys: ["sub_0","sub_1","sub_2","sub_3"],
     };
   }
 
@@ -35,11 +35,20 @@ export default class Slider extends Component{
         ]
       },
       {
+        title: '消息管理',
+        icon: 'switcher',
+        child: [
+          {title: '发系统消息', router: '/addMessage'},
+          {title: '系统消息列表', router: '/systemList'},
+          {title: '首页轮拨图', router: '/rechargeList'},
+        ]
+      },
+      {
         title: '下注管理',
         icon: 'appstore',
         child: [
+          {title: '玩家下注记录', router: '/betRecords'},
           {title: '开奖记录', router: '/lotteryRecords'},
-          {title: '用户下注记录', router: '/betRecords'},
           {title: '生成自动拖用户', router: '/'},
         ]
       },
@@ -47,7 +56,7 @@ export default class Slider extends Component{
         title: '财务管理',
         icon: 'switcher',
         child: [
-          {title: '玩家提现记录', router: '/withdrawRecords'},
+          {title: '玩家提现申请', router: '/withdrawRecords'},
           {title: '玩家回水记录', router: '/'},
         ]
       },
@@ -67,7 +76,9 @@ export default class Slider extends Component{
     return (
       this.menuList.map((sidebar,key)=>{
         return (
-          <SubMenu key={`sub_${key}`} title={<span><Icon type={sidebar.icon} /><span>{sidebar.title}</span></span>}>
+          <SubMenu
+            key={`sub_${key}`}
+            title={<span><Icon type={sidebar.icon} /><span>{sidebar.title}</span></span>}>
             {sidebar.child.map((child,index)=>{
               return (
                 <Menu.Item key={`sub${key}_${index}`}>
@@ -86,17 +97,14 @@ export default class Slider extends Component{
   render() {
     return (
       <div>
-        <div style={{height: 50, width: '100%',
+        <div style={{height: 50, width: '80%',
         textAlign: 'center',paddingTop: 14,fontSize: 16,marginBottom: 20}}>
         </div>
         <Menu
           theme={this.state.theme}
           onClick={this.handleClick.bind(this)}
-          selectedKeys={[this.state.current]}
           style={{ width: '100%' }}
-          //defaultOpenKeys={['sub1_1']}
-          mode="inline"
-          openKeys={this.state.openKeys}
+          mode="vertical"//          mode="inline"
         >
           {this.initSidebarDom()}
         </Menu>

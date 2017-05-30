@@ -17,6 +17,8 @@ const routerConfig = [
       {path: '/rooms', component: require('./routes/system/Rooms')},
       {path: '/withdrawRecords', component: require('./routes/withdraw/records')},
       {path: '/rollbackRules', component: require('./routes/system/RollbackRules')},
+      {path: '/addMessage', component: require('./routes/messages/AddMassage')},
+      {path: '/systemList', component: require('./routes/messages/MessageList')},
     ]
   },
   {path: '/login', component: require('./routes/Login')},

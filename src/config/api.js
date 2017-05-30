@@ -17,7 +17,7 @@ export default {
     updateWithdraw: "PUT /withdraw/updateWithdraw",//审核提现
   },
   betRecord: {
-    list: 'GET /betRecord/list'
+    list: 'GET /bet/records'
   },
   lottery: {
     record: 'GET /lottery/record',
@@ -33,5 +33,10 @@ export default {
     updateRoomStatus: 'PUT /system/updateRoomStatus',
     updateRoomSpeak: 'PUT /system/updateRoomSpeak',
     updateRollbackRules: 'PUT /system/updateRollbackRules',
+  },
+  message: {
+    addMessage: 'POST /message/addMessage',
+    systemList: 'GET /message/systemList',
+    deleteMessage: 'PUT /message/deleteMessage',
   },
 }
