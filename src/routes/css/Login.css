@@ -1,0 +1,23 @@
+.container{
+}
+.content{
+  width: 100%;
+  border: 1px solid red;
+}
+.myForm{
+  width: 600px;
+  margin: 0 auto;
+  padding: 100px;
+  margin-top: 200px;
+  border: 2px solid #D9D9D9;
+  border-radius: 4px;
+  position: relative;
+}
+.title{
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
