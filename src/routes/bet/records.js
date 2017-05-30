@@ -46,7 +46,10 @@ class BetRecords extends Component {
       }
     },
     {title: '赢取积分', dataIndex: 'win_integral',},
-    {title: '房间号', dataIndex: 'room_number',},
+    {
+      title: '房间等级', dataIndex: 'room_level',
+      render: (text)=>text == 1?'初级房':text == 2?'中级房':text == 3?'高级房':''
+    },
     {
       title: '玩法类型', dataIndex: 'lottery_place_type',
       render: (text)=>text == placeType.bj ? "北京" : "加拿大"

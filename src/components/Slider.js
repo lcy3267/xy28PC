@@ -57,7 +57,8 @@ export default class Slider extends Component{
         icon: 'switcher',
         child: [
           {title: '玩家提现申请', router: '/withdrawRecords'},
-          {title: '玩家回水记录', router: '/'},
+          {title: '玩家回水计算', router: '/rollback'},
+          {title: '玩家回水记录', router: '/rollbackRecord'},
         ]
       },
       {
@@ -67,7 +68,6 @@ export default class Slider extends Component{
           {title: '房间设置', router: '/rooms'},
           {title: '赔率设置', router: '/gameRules'},
           {title: '回水规则设置', router: '/rollbackRules'},
-          {title: '开奖设置', router: '/'},
         ]
       },
     ]

@@ -39,4 +39,9 @@ export default {
     systemList: 'GET /message/systemList',
     deleteMessage: 'PUT /message/deleteMessage',
   },
+  rollback: {
+    countRollback: 'GET /rollback/countRollback',
+    doRollback: 'PUT /rollback/doRollback',
+    rollbackRecord: 'GET /rollback/rollbackRecord',
+  },
 }

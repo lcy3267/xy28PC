@@ -12,6 +12,8 @@ const routerConfig = [
       {path: '/betRecords', component: require('./routes/bet/Records')},
       {path: '/lotteryRecords', component: require('./routes/lottery/LotteryRecords')},
       {path: '/usersList', component: require('./routes/users/UserList')},
+      {path: '/rollback', component: require('./routes/users/Rollback')},
+      {path: '/rollbackRecord', component: require('./routes/users/RollbackRecord')},
       {path: '/rechargeList', component: require('./routes/users/RechargeList')},
       {path: '/gameRules', component: require('./routes/system/GameRules')},
       {path: '/rooms', component: require('./routes/system/Rooms')},

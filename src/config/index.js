@@ -21,6 +21,7 @@
   betTypeArr: ['大','小','单','双','大单','大双','小单','小双','极大','极小'],
 
   combineRates: {
+    point: '单点',
     big: '大',
     small: '小',
     single: '单',
