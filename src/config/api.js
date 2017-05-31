@@ -3,45 +3,45 @@
  */
 export default {
   user: {
-    login: 'POST /users/pcLogin',
-    getList: 'GET /users/list',
-    updateUserSpeak: 'PUT /users/updateUserSpeak',
+    login: 'POST /users/admin/pcLogin',
+    getList: 'GET /users/admin/list',
+    updateUserSpeak: 'PUT /users/admin/updateUserSpeak',
   },
   recharge: {
-    list: "GET /recharge/list",
-    rechargeIntegral: 'PUT /recharge/adminRecharge',//积分充值
-    approveRecharge: 'PUT /recharge/approveRecharge',//积分充值
+    list: "GET /recharge/admin/list",
+    rechargeIntegral: 'PUT /recharge/admin/adminRecharge',//积分充值
+    approveRecharge: 'PUT /recharge/admin/approveRecharge',//积分充值
   },
   withdraw: {
-    records: "GET /withdraw/records",
-    updateWithdraw: "PUT /withdraw/updateWithdraw",//审核提现
+    records: "GET /withdraw/admin/records",
+    updateWithdraw: "PUT /withdraw/admin/updateWithdraw",//审核提现
   },
   betRecord: {
-    list: 'GET /bet/records'
+    list: 'GET /bet/admin/records'
   },
   lottery: {
-    record: 'GET /lottery/record',
-    addGameRules: 'POST /gameRules/addGameRules',
-    updateRoomGameRule: 'PUT /gameRules/updateRoomGameRule',
-    gameRules: 'GET /gameRules/list',
-    updateRate: 'PUT /gameRules/updateRate',
+    record: 'GET /lottery/admin/record',
+    addGameRules: 'POST /gameRules/admin/addGameRules',
+    updateRoomGameRule: 'PUT /gameRules/admin/updateRoomGameRule',
+    gameRules: 'GET /gameRules/admin/list',
+    updateRate: 'PUT /gameRules/admin/updateRate',
   },
   system: {
     rooms: 'GET /system/rooms',
-    rollbackRules: 'GET /system/rollbackRules',
-    addRollback: 'POST /system/addRollback',
-    updateRoomStatus: 'PUT /system/updateRoomStatus',
-    updateRoomSpeak: 'PUT /system/updateRoomSpeak',
-    updateRollbackRules: 'PUT /system/updateRollbackRules',
+    rollbackRules: 'GET /system/admin/rollbackRules',
+    addRollback: 'POST /system/admin/addRollback',
+    updateRoomStatus: 'PUT /system/admin/updateRoomStatus',
+    updateRoomSpeak: 'PUT /system/admin/updateRoomSpeak',
+    updateRollbackRules: 'PUT /system/admin/updateRollbackRules',
   },
   message: {
-    addMessage: 'POST /message/addMessage',
+    addMessage: 'POST /message/admin/addMessage',
     systemList: 'GET /message/systemList',
-    deleteMessage: 'PUT /message/deleteMessage',
+    deleteMessage: 'PUT /message/admin/deleteMessage',
   },
   rollback: {
-    countRollback: 'GET /rollback/countRollback',
-    doRollback: 'PUT /rollback/doRollback',
-    rollbackRecord: 'GET /rollback/rollbackRecord',
+    countRollback: 'GET /rollback/admin/countRollback',
+    doRollback: 'PUT /rollback/admin/doRollback',
+    rollbackRecord: 'GET /rollback/admin/rollbackRecord',
   },
 }
