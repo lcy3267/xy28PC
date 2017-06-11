@@ -93,7 +93,7 @@ class MessageList extends Component {
           dataSource={ this.state.systemList } columns={this.columns}
           pagination={{ pageSize: 10, total: this.state.count, onChange:this.nextPage}}
         />
-      </div>  
+      </div>
     );
   }
 }

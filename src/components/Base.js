@@ -21,7 +21,7 @@ class Base extends Component {
 
   componentWillMount() {
 
-    //链接房间
+    /*//链接房间
     var socket = io('http://localhost:3000/admin', {jsonp: false});
 
     console.log(socket.id); // undefined
@@ -34,7 +34,7 @@ class Base extends Component {
 
     socket.on('adminLogin', async(data)=>{
       console.log(data);
-    });
+    });*/
 
 
   }

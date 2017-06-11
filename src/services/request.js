@@ -60,6 +60,8 @@ export function request(uri, type = "GET", data = {}){
   let host = apiDomain;
   uri = host + uri;
 
+  console.log(uri,'-------');
+
   let headers = new Headers();
   headers.append( 'Accept', 'application/json');
   headers.append( 'Content-Type', 'application/json');

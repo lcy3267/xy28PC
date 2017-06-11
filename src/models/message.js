@@ -19,6 +19,7 @@ export default {
       }
     },
     *systemList({ params, callback }, { put }) {
+      params.type = 1;
       let rs = yield sendRequest(message.systemList, params);
       if(rs && rs.err_code == 0){
         callback && callback(rs);

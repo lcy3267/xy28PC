@@ -20,7 +20,7 @@ export default {
     list: 'GET /bet/admin/records'
   },
   lottery: {
-    record: 'GET /lottery/admin/record',
+    record: 'GET /lottery/records',
     addGameRules: 'POST /gameRules/admin/addGameRules',
     updateRoomGameRule: 'PUT /gameRules/admin/updateRoomGameRule',
     gameRules: 'GET /gameRules/admin/list',

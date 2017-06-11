@@ -57,17 +57,6 @@ class RollbackRecord extends Component {
     })
   }
 
-  doRollback = ()=>{
-    this.props.dispatch({
-      type: 'rollback/doRollback',
-      params: {date: this.state.date},
-      callback: (rs)=>{
-        message.success('回水成功!!');
-        this.loadList();
-      }
-    });
-  }
-
   render() {
     return (
       <div>
@@ -78,7 +67,6 @@ class RollbackRecord extends Component {
               onChange={this.onChange} style={{margin: '0 20px'}}/>
           </span>
           <span>玩家回水计算</span>
-          <a onClick={this.doRollback}>回水到玩家账号</a>
         </div>
         <Table
           rowKey={record => record.id}

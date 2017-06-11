@@ -40,7 +40,6 @@ export default class Slider extends Component{
         child: [
           {title: '发系统消息', router: '/addMessage'},
           {title: '系统消息列表', router: '/systemList'},
-          {title: '首页轮拨图', router: '/rechargeList'},
         ]
       },
       {
@@ -49,7 +48,6 @@ export default class Slider extends Component{
         child: [
           {title: '玩家下注记录', router: '/betRecords'},
           {title: '开奖记录', router: '/lotteryRecords'},
-          {title: '生成自动拖用户', router: '/'},
         ]
       },
       {
