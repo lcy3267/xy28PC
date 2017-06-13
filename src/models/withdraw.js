@@ -9,7 +9,8 @@ export default {
   namespace: 'withdraw',
 
   state: {
-    records: []
+    records: [],
+    approveNum: 0,
   },
 
   effects: {
@@ -17,6 +18,12 @@ export default {
       let rs = yield sendRequest(withdraw.records, params);
       if(rs && rs.err_code == 0){
         callback && callback(rs);
+      }
+    },
+    *getApproveNum({}, {put}){
+      let rs = yield sendRequest(withdraw.getApproveNum);
+      if(rs && rs.err_code == 0){
+        yield put({type: 'setCount', approveNum: rs.count});
       }
     },
     *updateWithdraw({ params, callback }, { put }) {
@@ -28,7 +35,9 @@ export default {
   },
 
   reducers: {
-    
+    setCount(state, {approveNum}){
+      return {...state, approveNum}
+    }
   },
 
 };

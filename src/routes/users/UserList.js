@@ -3,6 +3,7 @@ import {connect} from 'dva';
 import {Table, Modal, Input, message, InputNumber} from 'antd';
 import {getFrontDate} from '../../utils/formatUtil';
 import {placeType, isWinning, betTypeArr} from '../../config';
+import { routerRedux } from 'dva/router';
 
 const Search = Input.Search;
 
@@ -37,27 +38,41 @@ class UserList extends Component {
       render: (text, record)=>this.getOperation(record)
     },
     {
-      title: '用户状态', dataIndex: 'has_speak',
-      render: (text)=>text == -1?'已禁言':'正常'
+      title: '用户发言状态', dataIndex: 'has_speak',
+      render: (text)=>text == -1?<label style={{color: 'red'}}>已禁言</label>:'正常'
+    },
+    {
+      title: '用户下注状态', dataIndex: 'can_bottom',
+      render: (text)=>text == -1?<label style={{color: 'red'}}>禁止下注</label>:'正常'
     },
     {title: '账号', dataIndex: 'account',},
     {title: '昵称', dataIndex: 'name',},
     {title: '手机号', dataIndex: 'mobile',},
-    {title: '当前积分', dataIndex: 'integral',},
-    {title: '下注次数', dataIndex: 'bottom_pour_money',},
+    {title: '当前金额', dataIndex: 'integral',},
+    {title: '下注金额', dataIndex: 'sub_gral',},
+    {title: '金额盈亏', dataIndex: 'win_integral',},
+    {
+      title: '下注次数', dataIndex: 'bottom_num',
+      render: (text, record)=><a onClick={()=>{this.toBottomRecord(record)}}>{text}</a>
+    },
     {title: '备注', dataIndex: 'remark',},
     {title: '注册时间', dataIndex: 'created_at', render: (text)=>getFrontDate(text,'yyyy-MM-dd hh:ss')},
   ];
 
+  toBottomRecord = (record) => {
+    this.props.dispatch(routerRedux.push('/betRecords?user_id='+record.user_id));
+  };
+
   getOperation = (record)=>{
-    const {has_speak} = record;
+    const {has_speak, can_bottom} = record;
     return (
       <span>
         <a style={{marginRight: 10}} onClick={()=>{this.recharge(record)}}>上分</a>
-        <a onClick={()=>{this.updateUserSpeak(record)}}>{has_speak == 1?'禁言':'取消禁言'}</a>
+        <a style={{marginRight: 10}} onClick={()=>{this.updateUserSpeak(record)}}>{has_speak == 1?'禁言':'取消禁言'}</a>
+        <a onClick={()=>{this.updateUserBottom(record)}}>{can_bottom == 1?'禁止下注':'允许下注'}</a>
       </span>
     )
-  }
+  };
 
   updateUserSpeak = (record)=>{
     const {has_speak, name, user_id} = record;
@@ -71,6 +86,28 @@ class UserList extends Component {
           params: {
             user_id,
             has_speak: -has_speak,
+          },
+          callback: ()=>{
+            message.success('操作!!');
+            this.loadList();
+          }
+        })
+      }
+    })
+  }
+
+  updateUserBottom = (record)=>{
+    const {can_bottom, name, user_id} = record;
+    let str = can_bottom == 1?`确认禁止"${name}"下注吗`:`确认允许玩家"${name}"下注吗?`;
+    Modal.confirm({
+      title: '确认',
+      content: <div>{str}</div>,
+      onOk: ()=>{
+        this.props.dispatch({
+          type: 'user/updateUserBottom',
+          params: {
+            user_id,
+            can_bottom: -can_bottom,
           },
           callback: ()=>{
             message.success('操作!!');
@@ -128,7 +165,7 @@ class UserList extends Component {
       <div>
         <div style={{fontSize: 15,height: 30,marginBottom: 10}}>
           <span>玩家列表</span>
-          <Search onSearch={this.onSearch} placeholder="输入账号进行搜索"
+          <Search onSearch={this.onSearch} placeholder="输入账号或者昵称进行搜索"
             type="search" style={{width: 200, marginLeft: 50}}/>
         </div>
         <Table

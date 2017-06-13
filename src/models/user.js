@@ -34,6 +34,12 @@ export default {
         callback && callback();
       }
     },
+    *updateUserBottom({params, callback }, { put }){
+      let rs = yield sendRequest(user.updateUserBottom, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
+    },
   },
 
   reducers: {

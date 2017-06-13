@@ -16,7 +16,15 @@ class BetRecords extends Component {
   }
 
   componentWillMount() {
-    this.loadRecords();
+    const { location: {query} } = this.props;
+    let params = null;
+    if(query.user_id){
+      params = {
+        pageIndex: 1,
+        user_id: query.user_id,
+      }
+    }
+    this.loadRecords(params);
   }
 
   loadRecords = (params = {pageIndex: 1})=>{
@@ -37,14 +45,14 @@ class BetRecords extends Component {
       render: (text, record)=>combineRates[text]?combineRates[text]:record.bottom_pour_number
     },
     {title: '下注金额', dataIndex: 'bottom_pour_money',},
-    {
+    /*{
       title: '是否中奖', dataIndex: 'is_winning',
       render: (text)=> {
         if (text == isWinning.yes) return "是";
         if (text == isWinning.no) return "否";
         if (text == isWinning.await) return "未开奖";
       }
-    },
+    },*/
     {title: '赢取积分', dataIndex: 'win_integral',},
     {
       title: '房间等级', dataIndex: 'room_level',

@@ -6,6 +6,7 @@ export default {
     login: 'POST /users/admin/pcLogin',
     getList: 'GET /users/admin/list',
     updateUserSpeak: 'PUT /users/admin/updateUserSpeak',
+    updateUserBottom: 'PUT /users/admin/updateUserBottom',
   },
   recharge: {
     list: "GET /recharge/admin/list",
@@ -15,6 +16,7 @@ export default {
   withdraw: {
     records: "GET /withdraw/admin/records",
     updateWithdraw: "PUT /withdraw/admin/updateWithdraw",//审核提现
+    getApproveNum: "GET /withdraw/admin/getApproveNum",//待审核数量
   },
   betRecord: {
     list: 'GET /bet/admin/records'

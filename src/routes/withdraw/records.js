@@ -3,9 +3,10 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {Table, Modal, Input, message, InputNumber} from 'antd';
+import {Table, Modal, Input, message, Select} from 'antd';
 import {getFrontDate} from '../../utils/formatUtil';
 import {placeType, isWinning, betTypeArr} from '../../config';
+const Option = Select.Option;
 
 class UserList extends Component {
   // 构造
@@ -16,18 +17,26 @@ class UserList extends Component {
       records: [],
       count: 0,
       pageIndex: 1,
+      status: 0,
     };
   }
 
   componentWillMount() {
-    this.loadRecords();
+    if(this.props.location.query.status){
+      this.setState({status: this.props.location.query.status},()=>{
+        this.loadRecords();
+      })
+    }else{
+      this.loadRecords();
+    }
   }
 
   loadRecords = ()=>{
     this.props.dispatch({
       type: "withdraw/records",
       params: {
-        pageIndex: this.state.pageIndex
+        pageIndex: this.state.pageIndex,
+        status: this.state.status,
       },
       callback: (rs)=>{
         this.setState({records: rs.records, count: rs.count});
@@ -76,6 +85,7 @@ class UserList extends Component {
           },
           callback: ()=>{
             this.loadRecords();
+            this.props.dispatch({type: 'withdraw/getApproveNum'});
             message.success('操作成功!!');
           }
         })
@@ -89,10 +99,29 @@ class UserList extends Component {
     })
   };
 
+  updateStatus = (status)=>{
+    this.setState({status}, ()=>{
+      this.loadRecords()
+    })
+  }
+
   render() {
     return (
       <div>
-        <div style={{fontSize: 15,height: 30}}>玩家提现申请记录</div>
+        <div style={{fontSize: 15,height: 30}}>
+          <label>玩家提现申请记录</label>
+          <label style={{marginLeft: 20}}>筛选状态: </label>
+          <Select
+            style={{width: 150}}
+            value={this.state.status+''}
+            onChange={this.updateStatus}
+          >
+            <Option key="0">全部</Option>
+            <Option key="1">待审核</Option>
+            <Option key="2">已提现</Option>
+            <Option key="3">已拒绝</Option>
+          </Select>
+        </div>
         <Table
           rowKey='id'
           dataSource={ this.state.records } columns={this.columns}

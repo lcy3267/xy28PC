@@ -8,7 +8,7 @@ const routerConfig = [
     path: '/',
     component: Base,
     childRoutes: [
-      {path: '/index', component: require('./routes/Index')},
+      {path: '/', component: require('./routes/Index')},
       {path: '/betRecords', component: require('./routes/bet/Records')},
       {path: '/lotteryRecords', component: require('./routes/lottery/LotteryRecords')},
       {path: '/usersList', component: require('./routes/users/UserList')},

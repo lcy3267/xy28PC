@@ -4,9 +4,11 @@
 import React,{Component} from 'react';
 import { Menu, Icon, Switch } from 'antd';
 import { Link } from 'dva/router';
+import { routerRedux } from 'dva/router';
+import {connect} from 'dva';
 const SubMenu = Menu.SubMenu;
 
-export default class Slider extends Component{
+class Slider extends Component{
 
   // 构造
   constructor(props) {
@@ -15,7 +17,7 @@ export default class Slider extends Component{
     this.state = {
       theme: 'dark',
       current: '1',
-      //openKeys: ["sub_0","sub_1","sub_2","sub_3"],
+      openKeys: ["sub_0","sub_1","sub_2","sub_3","sub_4"],
     };
   }
 
@@ -23,6 +25,9 @@ export default class Slider extends Component{
     this.setState({
       current: e.key,
     });
+  }
+
+  componentWillMount() {
   }
 
   menuList = [
@@ -99,10 +104,12 @@ export default class Slider extends Component{
         textAlign: 'center',paddingTop: 14,fontSize: 16,marginBottom: 20}}>
         </div>
         <Menu
-          theme={this.state.theme}
+          theme="dark"
           onClick={this.handleClick.bind(this)}
           style={{ width: '100%' }}
-          mode="vertical"//          mode="inline"
+          mode="inline"//          mode="inline"
+          defaultSelectedKeys={['sub0_0']}
+          defaultOpenKeys={this.state.openKeys}
         >
           {this.initSidebarDom()}
         </Menu>
@@ -111,3 +118,6 @@ export default class Slider extends Component{
   }
 
 }
+
+
+export default connect()(Slider);

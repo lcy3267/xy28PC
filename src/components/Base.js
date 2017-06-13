@@ -2,9 +2,9 @@
  * Created by chengyuan on 2017/3/25.
  */
 import React, {Component} from 'react';
-import {Layout, Button} from 'antd';
+import {Layout, Button, notification, Badge, Icon} from 'antd';
 import { connect } from 'dva'
-import { routerRedux } from 'dva/router'
+import { routerRedux, Link } from 'dva/router'
 import io from "socket.io-client";
 const {Header, Sider, Content} = Layout;
 import Slider from './Slider';
@@ -20,23 +20,49 @@ class Base extends Component {
   }
 
   componentWillMount() {
+    const {dispatch} = this.props;
+    if(this.props.location.pathname == '/'){
+      dispatch(routerRedux.push('/usersList'));
+    }
+    dispatch({type: 'withdraw/getApproveNum'});
 
-    /*//链接房间
+    //链接房间
     var socket = io('http://localhost:3000/admin', {jsonp: false});
 
-    console.log(socket.id); // undefined
-
-    socket.on('connect', function(){
-      console.log(socket.id); // 'G5p5...'
-    });
-
-    socket.emit('adminLogin',{test: '123'});
+    let login = ()=>{
+      socket.emit('adminLogin',{test: '123'});
+    };
+    login();
 
     socket.on('adminLogin', async(data)=>{
       console.log(data);
-    });*/
+    });
 
+    socket.on('newWithDraw', async(data)=>{
+      notification.info({
+        message: '有新的提现申请',
+        description: '有用户提交了提现申请, 请及时处理!',
+        duration: 6,
+      });
+      dispatch({type: 'withdraw/getApproveNum'});
+    });
 
+    //心跳包
+    this.palpitationTimer = setInterval(()=>{
+      socket.emit("palpitation");
+    },10000);
+
+    socket.on('palpitation', (data)=>{
+      let { result } = data;
+      if(result != 'success'){
+        login();
+      }
+    });
+
+  }
+
+  componentWillUnMount() {
+    this.palpitationTimer && clearInterval(this.palpitationTimer);
   }
 
   loginOut = ()=>{
@@ -44,12 +70,17 @@ class Base extends Component {
   }
 
   render() {
-    const {children} = this.props;
+    const {children, withdraw: {approveNum}} = this.props;
     return (
       <Layout style={{height: '100%'}}>
         <Sider><Slider /></Sider>
         <Layout>
           <Header className={style.header}>
+            <Link to="/withdrawRecords?status=1" className={style.news}>
+              <Badge count={approveNum}>
+                <Icon type="bell" style={{fontSize: 24}}/>
+              </Badge>
+            </Link>
             <Button
               onClick={this.loginOut}
               className={style.loginOut}>退出</Button>
@@ -61,6 +92,6 @@ class Base extends Component {
   }
 }
 
-export default connect(()=>{
-  return {};
+export default connect(({withdraw})=>{
+  return {withdraw};
 })(Base);

@@ -3,6 +3,7 @@ import {connect} from 'dva';
 import {Table, Modal,message, DatePicker} from 'antd';
 import {placeType, isWinning, betTypeArr} from '../../config';
 import moment from 'moment';
+import {getFrontDate} from '../../utils/formatUtil'
 
 
 class RollbackRecord extends Component {
@@ -14,7 +15,7 @@ class RollbackRecord extends Component {
       pageIndex: 1,
       count: 0,
       records: [],
-      date: moment().format('YYYY-MM-DD')
+      date: ''
     };
   }
 
@@ -42,7 +43,7 @@ class RollbackRecord extends Component {
     {title: '回水级别', dataIndex: 'room_level',
       render: (text)=>text == 1?'初级':text == 2?'中级':text == 3?'高级':''
     },
-    {title: '回水时间', dataIndex: 'created_at',},
+    {title: '回水时间', dataIndex: 'created_at',render:(text)=>getFrontDate(text)},
   ];
 
   nextPage = (pageIndex)=>{
@@ -63,7 +64,6 @@ class RollbackRecord extends Component {
         <div style={{fontSize: 15,height: 30,marginBottom: 10}}>
           <span>日期:
             <DatePicker
-              defaultValue={moment()}
               onChange={this.onChange} style={{margin: '0 20px'}}/>
           </span>
           <span>玩家回水计算</span>
