@@ -27,15 +27,15 @@ class Base extends Component {
     dispatch({type: 'withdraw/getApproveNum'});
 
     //链接房间
-    var socket = io('http://localhost:3000/admin', {jsonp: false});
+    var socket = io(apiDomain+'/admin', {jsonp: false});
 
     let login = ()=>{
       socket.emit('adminLogin',{test: '123'});
     };
     login();
 
-    socket.on('adminLogin', async(data)=>{
-      console.log(data);
+    socket.on('adminLogin', (data)=>{
+      console.log('connetd success');
     });
 
     socket.on('newWithDraw', async(data)=>{
