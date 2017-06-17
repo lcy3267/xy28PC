@@ -33,6 +33,12 @@ export default {
         callback && callback();
       }
     },
+    *updateRollback({params, callback}){
+      let rs = yield sendRequest(system.updateRollback, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
+    },
     *updateRoomStatus({params, callback}){
       let rs = yield sendRequest(system.updateRoomStatus, params);
       if(rs && rs.err_code == 0){

@@ -19,6 +19,9 @@ class GameRules extends Component {
       singleRules: [],
       showAddCombine: false,
       showAddSingle: false,
+      combineRule: null,
+      singleRule: null,
+
     };
   }
 
@@ -31,43 +34,23 @@ class GameRules extends Component {
       type: 'lottery/gameRules',
       callback: (rules)=>{
 
-        const combineRules = rules.filter((rule)=>rule.play_type == 1);
-        const singleRules = rules.filter((rule)=>rule.play_type == 2);
+        let combineRules = rules.filter((rule)=>rule.play_type == 1);
+        let singleRules = rules.filter((rule)=>rule.play_type == 2);
+
+        combineRules = combineRules.map((rule)=>{
+          rule.rates = JSON.parse(rule.combine_rates);
+          return rule;
+        });
+
+        singleRules = singleRules.map((rule)=>{
+          rule.rates = rule.single_point_rates.split('|');
+          console.log(rule.rates,'=====')
+          return rule;
+        });
 
         this.setState({combineRules, singleRules});
       }
     });
-  }
-
-  doUpdateRate = (v,rule)=>{
-    const value = v.target.value;
-
-    if(value != rule.rate){
-      const typeStr = this.formatRule(rule.type);
-      Modal.confirm({
-        title: '确认',
-        content: <div>确认要修改"{typeStr}"的赔率为
-          <em style={{color: 'red',padding: '0 3px'}}>{value}</em>吗?</div>,
-        onOk: ()=>{
-          this.props.dispatch({
-            type: 'lottery/updateRate',
-            params: {
-              id: rule.id,
-              rate: +value,
-            },
-            callback: ()=>{
-              this.loadInfo();
-              message.success('修改成功!!')
-            }
-          })
-        },
-        onCancel: ()=>{
-          this.setState({rules: []},()=>{
-            this.loadInfo();
-          });
-        }
-      })
-    }
   }
 
   callback = ()=>{
@@ -78,6 +61,28 @@ class GameRules extends Component {
     });
   }
 
+  updateRate = (type, index)=>{
+    if(type == 1){
+      let combineRule = this.state.combineRules[index];
+      this.setState({
+        showAddCombine: true,
+      }, ()=>{
+        this.setState({
+          combineRule
+        })
+      });
+    }else{
+      let singleRule = this.state.singleRules[index];
+      this.setState({
+        showAddSingle: true,
+      }, ()=>{
+        this.setState({
+          singleRule
+        })
+      });
+    }
+  }
+
   render() {
 
     return (
@@ -85,26 +90,30 @@ class GameRules extends Component {
         <div style={{fontSize: 15,height: 30}}>
           <span>大小单双赔率规则列表</span>
           <span style={{marginLeft: 20}}>
-            <a onClick={()=>{this.setState({showAddCombine: true})}}>添加赔率规则</a>
+            <a onClick={()=>{this.setState({showAddCombine: true, combineRule: null})}}>添加赔率规则</a>
           </span>
         </div>
         <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
           {this.state.combineRules.map((rule, index)=>{
-            const rates = JSON.parse(rule.combine_rates);
+            const rates = rule.rates;
             let rateDom = [];
             for(let key of Object.keys(rates)){
               rateDom[rates[key].index] = (
                 <Col key={key} style={{height: 35, width: '20%'}}>
                   <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{combineRates[key]}:</label>
                   <InputNumber
-                    onChange={(v)=>{this.onChange(v, key)}}
-                    defaultValue={rates[key].value}/>
+                    value={rates[key].value}/>
                 </Col>
               )
             }
             return (
               <Row type='flex' key={index} >
-                <Col span="24" style={{height: 35, fontSize: 14}}>{rule.name}</Col>
+                <Col span="24" style={{height: 35}}>
+                  <label style={{fontSize: 15}}>{rule.name}</label>
+                  <label style={{fontSize: 15, marginLeft: 20}}>
+                    <a onClick={()=>{this.updateRate(1, index)}}>修改赔率</a>
+                  </label>
+                </Col>
                 {rateDom}
               </Row>
             )
@@ -119,7 +128,7 @@ class GameRules extends Component {
         </div>
         <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
           {this.state.singleRules.map((rule, index)=>{
-            const rates = rule.single_point_rates.split('|');
+            const rates = rule.rates;
             let rateDom = [];
 
             rates.map((rate, index)=>{
@@ -127,8 +136,8 @@ class GameRules extends Component {
                 <Col key={index} span="4.8" style={{height: 35, marginLeft: 10}}>
                   <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index}:</label>
                   <InputNumber
-                    onChange={(v)=>{this.onChange(v, index)}}
-                    defaultValue={rate}/>
+                    onBlur={(v)=>{this.doUpdateRate(v, index)}}
+                    value={rate}/>
                 </Col>
               )
             });
@@ -139,22 +148,31 @@ class GameRules extends Component {
                   <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index+14}:</label>
                   <InputNumber
                     onChange={(v)=>{this.onChange(v, index)}}
-                    defaultValue={rates[13-index]}/>
+                    value={rates[13-index]}/>
                 </Col>
               )
             });
 
             return (
               <Row type='flex' key={index} >
-                <Col span="24" style={{height: 35, fontSize: 14}}>{rule.name}</Col>
+                <Col span="24" style={{height: 35, fontSize: 14}}>
+                  <label style={{fontSize: 15}}>{rule.name}</label>
+                  <label style={{fontSize: 15, marginLeft: 20}}>
+                    <a onClick={()=>{this.updateRate(2, index)}}>修改赔率</a>
+                  </label>
+                </Col>
                 {rateDom}
               </Row>
             )
           })}
         </div>
 
-        {this.state.showAddCombine?<AddCombineRules hideFunc={()=>{this.setState({showAddCombine: false})}} callback={this.callback} />:null}
-        {this.state.showAddSingle?<AddSingleRules hideFunc={()=>{this.setState({showAddSingle: false})}} callback={this.callback} />:null}
+        {this.state.showAddCombine?
+          <AddCombineRules hideFunc={()=>{this.setState({showAddCombine: false})}}
+                           combineRule={this.state.combineRule}  callback={this.callback} />:null}
+        {this.state.showAddSingle?<AddSingleRules hideFunc={()=>{this.setState({showAddSingle: false})}}
+                                                  singleRule={this.state.singleRule} callback={this.callback} />
+          :null}
       </div>
     );
   }

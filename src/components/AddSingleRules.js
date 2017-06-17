@@ -23,6 +23,15 @@ class AddSingleRules extends Component {
   componentWillMount() {
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.singleRule){
+      const {rates, name, id} = nextProps.singleRule;
+      this.setState({
+        rates, name, id
+      });
+    }
+  }
+
   onChange = (v, key)=>{
     let rates = this.state.rates;
     rates[key] = v;
@@ -35,33 +44,53 @@ class AddSingleRules extends Component {
     let ratesStr = '';
     rates.map((rate, index)=>{
       ratesStr += rate;
-      if(index != (rates.lenth -1)){
+      if(index != (rates.length -1)){
         ratesStr += '|';
       }
     });
 
-    this.props.dispatch({
-      type: 'lottery/addGameRules',
-      params: {
-        type: 2,
-        name: this.state.name,
-        rates: ratesStr
-      },
-      callback: ()=>{
-        this.props.callback();
-      }
-    })
+    if(this.state.id){
+      this.props.dispatch({
+        type: 'lottery/updateGameRules',
+        params: {
+          id: this.state.id,
+          type: 2,
+          name: this.state.name,
+          rates: ratesStr
+        },
+        callback: ()=>{
+          this.props.callback();
+        }
+      })
+    }else{
+      this.props.dispatch({
+        type: 'lottery/addGameRules',
+        params: {
+          type: 2,
+          name: this.state.name,
+          rates: ratesStr
+        },
+        callback: ()=>{
+          this.props.callback();
+        }
+      })
+    }
+
+
   }
 
   render() {
 
     let rateDom = [];
 
+    const rates = this.state.rates;
+
     for(let i = 0, len = 14; i < len; i++){
       rateDom.push(
         <Col key={i} span="4.8" style={{height: 35, marginLeft: 10}}>
           <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{i+1}</label>
           <InputNumber
+            value={rates[i]}
             onChange={(v)=>{this.onChange(v, i)}}/>
         </Col>
       )
@@ -73,13 +102,14 @@ class AddSingleRules extends Component {
         visible={true}
         onOk={this.doSave}
         onCancel={this.props.hideFunc}
-        okText="添加"
+        okText={this.state.id?'修改':'"添加"'}
         maskClosable={false}
         width={800}
       >
         <div>
           <label>规则名称:</label>
-          <Input style={{width: 150, marginLeft: 10}} onChange={(e)=>{this.setState({name: e.target.value})}}/>
+          <Input style={{width: 150, marginLeft: 10}} value={this.state.name}
+                 onChange={(e)=>{this.setState({name: e.target.value})}}/>
         </div>
         <Row type='flex' style={{borderRadius: 4, padding: 10}}>
           {rateDom}

@@ -51,9 +51,13 @@ class Rooms extends Component {
     },
     {
       title: '操作', dataIndex: 'operation',
-      render: (text, record)=><a>修改规则</a>
+      render: (text, record, index)=><a onClick={()=>{this.updateRule(record)}}>修改规则</a>
     },
   ];
+
+  updateRule = (record)=>{
+    this.setState({ showAdd: true, rule: record });
+  }
 
   loadLevels = (records, number)=>{
 
@@ -83,13 +87,14 @@ class Rooms extends Component {
         <div style={{fontSize: 15,height: 30}}>
           <span>回水规则列表</span>
           <span style={{marginLeft: 20}}>
-            <a onClick={()=>{this.setState({showAdd: true})}}>添加回水规则</a>
+            <a onClick={()=>{this.setState({showAdd: true, rule: null})}}>添加回水规则</a>
           </span>
         </div>
         <Table
           rowKey={record => record.id}
           dataSource={ this.state.rollbackRules } columns={this.columns}/>
-        {this.state.showAdd?<AddRollbackRule hideFunc={()=>{this.setState({showAdd: false})}} callback={this.addCallback}/>:null}
+        {this.state.showAdd?<AddRollbackRule hideFunc={()=>{this.setState({showAdd: false})}}
+                                             rule={this.state.rule} callback={this.addCallback}/>:null}
       </div>
     );
   }

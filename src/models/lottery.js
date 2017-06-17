@@ -26,8 +26,8 @@ export default {
         yield put({type: 'setRates', ruleRates: rs.rules})
       }
     },
-    * updateRate({params, callback}){
-      let rs = yield sendRequest(lottery.updateRate, params);
+    * updateGameRules({params, callback}){
+      let rs = yield sendRequest(lottery.updateGameRules, params);
       if(rs && rs.err_code == 0){
         callback && callback();
       }

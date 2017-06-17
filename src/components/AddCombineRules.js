@@ -15,6 +15,8 @@ class AddCombineRules extends Component {
     super(props);
     // 初始状态
     this.state = {
+      id: null,
+      name: null,
       rates: {
         big: {index: 0, value: undefined},
         small: {index: 1, value: undefined},
@@ -33,6 +35,15 @@ class AddCombineRules extends Component {
   componentWillMount() {
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.combineRule){
+      const {rates, name, id} = nextProps.combineRule;
+      this.setState({
+        rates, name, id
+      });
+    }
+  }
+
   onChange = (v, key)=>{
     let rates = this.state.rates;
     rates[key].value = v;
@@ -41,19 +52,25 @@ class AddCombineRules extends Component {
 
   doSave = ()=>{
 
-    console.log(this.state.rates,'----');
+    let params = {
+      type: 1,
+      name: this.state.name,
+      rates: this.state.rates
+    };
+    let type = 'lottery/addGameRules';
+
+    if(this.state.id){
+      params.id = this.state.id;
+      type = 'lottery/updateGameRules';
+    };
 
     this.props.dispatch({
-      type: 'lottery/addGameRules',
-      params: {
-        type: 1,
-        name: this.state.name,
-        rates: this.state.rates
-      },
+      type,
+      params,
       callback: ()=>{
         this.props.callback();
       }
-    })
+    });
   }
 
   render() {
@@ -67,7 +84,7 @@ class AddCombineRules extends Component {
           <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{combineRates[key]}:</label>
           <InputNumber
             onChange={(v)=>{this.onChange(v, key)}}
-            defaultValue={rates[key].value}/>
+            value={rates[key].value}/>
         </Col>
       )
     }
@@ -78,13 +95,14 @@ class AddCombineRules extends Component {
         visible={true}
         onOk={this.doSave}
         onCancel={this.props.hideFunc}
-        okText="添加"
+        okText={this.state.id?'修改':'"添加"'}
         maskClosable={false}
         width={800}
       >
         <div>
           <label>规则名称:</label>
-          <Input style={{width: 150, marginLeft: 10}} onChange={(e)=>{this.setState({name: e.target.value})}}/>
+          <Input style={{width: 150, marginLeft: 10}} value={this.state.name}
+                 onChange={(e)=>{this.setState({name: e.target.value})}}/>
         </div>
         <Row type='flex' style={{borderRadius: 4, padding: 10}}>
           {rateDom}

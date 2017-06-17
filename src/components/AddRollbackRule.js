@@ -11,10 +11,27 @@ class AddRollbackRule extends Component {
     this.state = {
       levels: [],
       rates: [],
+      rule_level: '',
     };
   }
 
   componentWillMount() {
+    const rule = this.props.rule;
+    if(rule){
+      const {name, id, rule_level} = rule;
+      let levels = [];
+      let rates = [];
+      for(let key of Object.keys(rule)){
+        if(key.indexOf('level_') > -1){
+          levels.push(rule[key])
+        }else if(key.indexOf('rate_') > -1){
+          rates.push(rule[key])
+        }
+      }
+      this.setState({
+        name, id, rule_level, rates, levels,
+      });
+    }
   }
 
   LevelsNumber = (number,hasAdd = false)=>{
@@ -41,7 +58,7 @@ class AddRollbackRule extends Component {
     const name = this.state.name;
     const levels = this.state.levels;
     const rates = this.state.rates;
-    const ruleLevel = this.state.ruleLevel;
+    const rule_level = this.state.rule_level;
     const len = levels.length;
 
     let ok = true;
@@ -61,11 +78,20 @@ class AddRollbackRule extends Component {
     }
 
     if(ok){
+
+      let type = 'system/addRollback';
+      let params = {
+          name, levels, rates, rule_level
+      };
+
+      if(this.state.id){
+        type = 'system/updateRollback';
+        params.id = this.state.id;
+      }
+
       this.props.dispatch({
-        type: 'system/addRollback',
-        params: {
-          name, levels, rates, ruleLevel
-        },
+        type,
+        params,
         callback: ()=>{
           this.props.callback();
         }
@@ -80,13 +106,16 @@ class AddRollbackRule extends Component {
         visible={true}
         onOk={this.doSave}
         onCancel={this.props.hideFunc}
-        okText="添加"
+        okText={this.state.id?'修改':'"添加"'}
         maskClosable={false}
       >
         <div>
           <div style={{height: 50}}>
-            名称:<Input placeholder="请输入规则名称" style={{width: 150, marginLeft: 10}} onChange={(e)=>{this.setState({name: e.target.value})}}/>
-            等级:<Select onSelect={(v)=>this.setState({ruleLevel: v})}
+            名称:<Input placeholder="请输入规则名称" style={{width: 150, marginLeft: 10}}
+                      value={this.state.name}
+                      onChange={(e)=>{this.setState({name: e.target.value})}}/>
+            等级:<Select onSelect={(v)=>this.setState({rule_level: v})}
+                       value={this.state.rule_level+''}
                        style={{width: 150}}>
             <Option key="1">初级</Option>
             <Option key="2">中级</Option>
