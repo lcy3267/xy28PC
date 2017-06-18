@@ -7,30 +7,28 @@ import { connect } from 'dva'
 
 const Option = Select.Option;
 
-class RollbackRuleSelect extends Component {
+class SpecialGameRuleSelect extends Component {
   // 构造
   constructor(props) {
     super(props);
     // 初始状态
+    this.rule_type = this.props.rule_type;
+
     this.state = {
-      rollbackRules: [],
       rule_id: this.props.rule_id
     };
   }
 
   componentWillMount() {
-    const {rollbackRules} = this.props.system;
-    if(rollbackRules.length == 0){
+    const { specialGameRules } = this.props.lottery;
+    if(specialGameRules.length == 0){
       this.loadRules();
     }
   }
 
   loadRules = ()=>{
     this.props.dispatch({
-      type: 'system/rollbackRules',
-      callback: (rollbackRules)=>{
-        this.setState({rollbackRules});
-      }
+      type: 'lottery/specialGameRules',
     });
   }
 
@@ -42,7 +40,16 @@ class RollbackRuleSelect extends Component {
 
   render() {
 
-    const {rollbackRules} = this.props.system;
+    const { specialGameRules } = this.props.lottery;
+
+    let options = [];
+
+    specialGameRules.map((rule)=>{
+      if(rule.rule_type == this.rule_type){
+        options.push(<Option key={rule.id+''}>{rule.name}</Option>) ;
+      }
+    });
+    
 
     return (
       <Select
@@ -50,14 +57,12 @@ class RollbackRuleSelect extends Component {
         value={this.state.rule_id+''}
         onChange={this.updateRules}
       >
-        {rollbackRules.map((rule)=>{
-          return <Option key={rule.id+''}>{rule.name}</Option>
-        })}
+        {options}
       </Select>
     )
   }
 }
 
-export default connect(({system})=>{
-  return {system};
-})(RollbackRuleSelect);
+export default connect(({ lottery })=>{
+  return { lottery };
+})(SpecialGameRuleSelect);

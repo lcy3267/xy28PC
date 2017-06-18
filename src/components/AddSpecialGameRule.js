@@ -11,14 +11,14 @@ class AddRollbackRule extends Component {
     this.state = {
       levels: [],
       rates: [],
-      rule_level: '',
+      rule_type: 1,
     };
   }
 
   componentWillMount() {
     const rule = this.props.rule;
     if(rule){
-      const {name, id, rule_level} = rule;
+      const {name, id, rule_type} = rule;
       let levels = [];
       let rates = [];
       for(let key of Object.keys(rule)){
@@ -29,7 +29,7 @@ class AddRollbackRule extends Component {
         }
       }
       this.setState({
-        name, id, rule_level, rates, levels,
+        name, id, rates, levels, rule_type,
       });
     }
   }
@@ -58,12 +58,12 @@ class AddRollbackRule extends Component {
     const name = this.state.name;
     const levels = this.state.levels;
     const rates = this.state.rates;
-    const rule_level = this.state.rule_level;
+    const rule_type = this.state.rule_type;
     const len = levels.length;
 
     let ok = true;
-    if(len != 4 || rates.length != 4 || !name) {
-      message.error('请将回水规则填写完整!!');
+    if(len != 3 || rates.length != 3 || !name) {
+      message.error('请将赔率规则填写完整!!');
       return;
     }
 
@@ -71,7 +71,7 @@ class AddRollbackRule extends Component {
       if(i < len - 1){
         if(levels[i] > levels[i+1]) {
           ok = false;
-          message.error('请填写正确的回水规则!!');
+          message.error('请填写正确的赔率规则!!');
           break;
         };
       }
@@ -79,13 +79,13 @@ class AddRollbackRule extends Component {
 
     if(ok){
 
-      let type = 'system/addRollback';
+      let type = 'lottery/addSpecialGameRule';
       let params = {
-          name, levels, rates, rule_level
+          name, levels, rates, rule_type
       };
 
       if(this.state.id){
-        type = 'system/updateRollback';
+        type = 'lottery/updateSpecialGameRule';
         params.id = this.state.id;
       }
 
@@ -102,7 +102,7 @@ class AddRollbackRule extends Component {
   render() {
     return (
       <Modal
-        title="添加回水规则"
+        title="添加13/14赔率规则"
         visible={true}
         onOk={this.doSave}
         onCancel={this.props.hideFunc}
@@ -114,12 +114,11 @@ class AddRollbackRule extends Component {
             名称:<Input placeholder="请输入规则名称" style={{width: 150, marginLeft: 10}}
                       value={this.state.name}
                       onChange={(e)=>{this.setState({name: e.target.value})}}/>
-            等级:<Select onSelect={(v)=>this.setState({rule_level: v})}
-                       value={this.state.rule_level+''}
+            赔率类型:<Select onSelect={(v)=>this.setState({rule_type: v})}
+                       value={this.state.rule_type+''}
                        style={{width: 150}}>
-            <Option key="1">初级</Option>
-            <Option key="2">中级</Option>
-            <Option key="3">高级</Option>
+            <Option key="1">大小单双</Option>
+            <Option key="2">组合</Option>
           </Select>
           </div>
           <div style={{height: 50}}>
@@ -127,7 +126,7 @@ class AddRollbackRule extends Component {
             {this.LevelsNumber(0)} ~ {this.LevelsNumber(1)}
           </span>
             <label style={{marginLeft: 20}}>赔率:</label>
-            <span style={{marginLeft: 10}}>{this.ratesNumber(0)} %</span>
+            <span style={{marginLeft: 10}}>{this.ratesNumber(0)}</span>
           </div>
           <div style={{height: 50}}>
             <label>level2:</label>
@@ -135,23 +134,15 @@ class AddRollbackRule extends Component {
               {this.LevelsNumber(1, true)} ~ {this.LevelsNumber(2)}
             </span>
             <label style={{marginLeft: 20}}>赔率:</label>
-            <span style={{marginLeft: 10}}>{this.ratesNumber(1)} %</span>
+            <span style={{marginLeft: 10}}>{this.ratesNumber(1)}</span>
           </div>
           <div style={{height: 50}}>
             <label>level3:</label>
             <span style={{marginLeft: 10}}>
-              {this.LevelsNumber(2, true)} ~ {this.LevelsNumber(3)}
+              {this.LevelsNumber(2)} 以上
             </span>
             <label style={{marginLeft: 20}}>赔率:</label>
-            <span style={{marginLeft: 10}}>{this.ratesNumber(2)} %</span>
-          </div>
-          <div style={{height: 50}}>
-            <label>level4:</label>
-            <span style={{marginLeft: 10}}>
-              {this.LevelsNumber(3)} 以上
-            </span>
-            <label style={{marginLeft: 20}}>赔率:</label>
-            <span style={{marginLeft: 10}}>{this.ratesNumber(3)} %</span>
+            <span style={{marginLeft: 10}}>{this.ratesNumber(2)}</span>
           </div>
         </div>
       </Modal>

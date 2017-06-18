@@ -10,6 +10,7 @@ export default {
 
   state: {
     ruleRates: [],
+    specialGameRules: [],
   },
 
   effects: {
@@ -44,11 +45,33 @@ export default {
         callback && callback();
       }
     },
+    *addSpecialGameRule({params, callback}){
+      let rs = yield sendRequest(lottery.addSpecialGameRule, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
+    },
+    *updateSpecialGameRule({params, callback}){
+      let rs = yield sendRequest(lottery.updateSpecialGameRule, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
+    },
+    *specialGameRules({callback},{put}){
+      let rs = yield sendRequest(lottery.specialGameRules);
+      if(rs && rs.err_code == 0){
+        yield put({type: 'setSpecialGameRules', specialGameRules: rs.rules});
+        callback && callback(rs.rules);
+      }
+    },
   },
 
   reducers: {
     setRates(state,{ruleRates}){
       return {...state, ruleRates}
+    },
+    setSpecialGameRules(state,{specialGameRules}){
+      return {...state, specialGameRules}
     }
   },
 

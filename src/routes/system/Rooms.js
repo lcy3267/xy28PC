@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Table, Modal, message} from 'antd';
-import RollbackRuleSelect from '../../components/RollbackRuleSelect';
 import RuleRatesSelect from '../../components/RuleRatesSelect';
+import SpecialGameRuleSelect from '../../components/SpecialGameRuleSelect';
 
 class Rooms extends Component {
   // 构造
@@ -55,6 +55,14 @@ class Rooms extends Component {
     {
       title: '单点赔率', dataIndex: 'rule_single_id',
       render: (text, record)=><RuleRatesSelect paly_type={2} rule_id={text} updateRules={(v)=>{this.updateRoomGameRule(v, record, 2)}}/>
+    },
+    {
+      title: '大小单双13/14赔率', dataIndex: 'special_game_rule_id',
+      render: (text, record)=><SpecialGameRuleSelect rule_type={1} rule_id={text} updateRules={(v)=>{this.updateRoomGameRule(v, record, 3)}}/>
+    },
+    {
+      title: '组合13/14赔率', dataIndex: 'combine_special_rule_id',
+      render: (text, record)=><SpecialGameRuleSelect rule_type={2} rule_id={text} updateRules={(v)=>{this.updateRoomGameRule(v, record, 4)}}/>
     },
   ];
 

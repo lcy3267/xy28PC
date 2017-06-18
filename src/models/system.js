@@ -1,8 +1,8 @@
 /**
  * Created by chengyuan on 2017/5/10.
  */
-import {sendRequest} from '../services/request';
-import {system} from '../config/api';
+import { sendRequest } from '../services/request';
+import { system } from '../config/api';
 
 
 export default {
@@ -11,6 +11,7 @@ export default {
 
   state: {
     rollbackRules: [],
+    specialGameRules: [],
   },
 
   effects: {
@@ -62,7 +63,7 @@ export default {
   reducers: {
     setRules(state,{rollbackRules}){
       return {...state, rollbackRules}
-    }
+    },
   },
 
 };

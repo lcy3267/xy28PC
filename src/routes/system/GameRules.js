@@ -3,11 +3,12 @@
  */
 import React, {Component} from 'react';
 import {connect} from 'dva';
-import {InputNumber, Row, Col, Modal, message} from 'antd';
+import {InputNumber, Row, Col, Tabs, Icon} from 'antd';
 import { combineRates } from '../../config';
 import AddCombineRules from '../../components/AddCombineRules';
 import AddSingleRules from '../../components/AddSingleRules';
-
+import SpecialGameRules from './SpecialGameRules';
+const TabPane = Tabs.TabPane;
 
 class GameRules extends Component {
   // 构造
@@ -44,7 +45,6 @@ class GameRules extends Component {
 
         singleRules = singleRules.map((rule)=>{
           rule.rates = rule.single_point_rates.split('|');
-          console.log(rule.rates,'=====')
           return rule;
         });
 
@@ -86,86 +86,91 @@ class GameRules extends Component {
   render() {
 
     return (
-      <div style={{paddingLeft: 10}}>
-        <div style={{fontSize: 15,height: 30}}>
-          <span>大小单双赔率规则列表</span>
-          <span style={{marginLeft: 20}}>
-            <a onClick={()=>{this.setState({showAddCombine: true, combineRule: null})}}>添加赔率规则</a>
-          </span>
-        </div>
-        <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
-          {this.state.combineRules.map((rule, index)=>{
-            const rates = rule.rates;
-            let rateDom = [];
-            for(let key of Object.keys(rates)){
-              rateDom[rates[key].index] = (
-                <Col key={key} style={{height: 35, width: '20%'}}>
-                  <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{combineRates[key]}:</label>
-                  <InputNumber
-                    value={rates[key].value}/>
-                </Col>
-              )
-            }
-            return (
-              <Row type='flex' key={index} >
-                <Col span="24" style={{height: 35}}>
-                  <label style={{fontSize: 15}}>{rule.name}</label>
-                  <label style={{fontSize: 15, marginLeft: 20}}>
-                    <a onClick={()=>{this.updateRate(1, index)}}>修改赔率</a>
-                  </label>
-                </Col>
-                {rateDom}
-              </Row>
-            )
-          })}
-        </div>
+      <div style={{fontSize: 14}}>
 
-        <div style={{fontSize: 15,height: 30, marginTop: 20}}>
-          <span>单点赔率规则列表</span>
-          <span style={{marginLeft: 20}}>
-            <a onClick={()=>{this.setState({showAddSingle: true})}}>添加赔率规则</a>
-          </span>
-        </div>
-        <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
-          {this.state.singleRules.map((rule, index)=>{
-            const rates = rule.rates;
-            let rateDom = [];
+        <Tabs defaultActiveKey="3" type="card">
+          <TabPane tab={<span>大小单双赔率规则列表</span>} key="1">
+            <div style={{fontSize: 15,height: 30}}>
+              <span style={{marginLeft: 20}}>
+                <a onClick={()=>{this.setState({showAddCombine: true, combineRule: null})}}>添加赔率规则</a>
+              </span>
+            </div>
+            <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
+              {this.state.combineRules.map((rule, index)=>{
+                const rates = rule.rates;
+                let rateDom = [];
+                for(let key of Object.keys(rates)){
+                  rateDom[rates[key].index] = (
+                    <Col key={key} style={{height: 35, width: '20%'}}>
+                      <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{combineRates[key]}:</label>
+                      <InputNumber
+                        value={rates[key].value}/>
+                    </Col>
+                  )
+                }
+                return (
+                  <Row type='flex' key={index} >
+                    <Col span="24" style={{height: 35}}>
+                      <label style={{fontSize: 15}}>{rule.name}</label>
+                      <label style={{fontSize: 15, marginLeft: 20}}>
+                        <a onClick={()=>{this.updateRate(1, index)}}>修改赔率</a>
+                      </label>
+                    </Col>
+                    {rateDom}
+                  </Row>
+                )
+              })}
+            </div>
+          </TabPane>
+          <TabPane tab={<span>单点赔率规则列表</span>} key="2">
+            <div style={{fontSize: 15,height: 30, }}>
+              <span style={{marginLeft: 20}}>
+                <a onClick={()=>{this.setState({showAddSingle: true})}}>添加赔率规则</a>
+              </span>
+            </div>
+            <div style={{border: '1px solid #E9E9E9',borderRadius: 4, padding: 10}}>
+              {this.state.singleRules.map((rule, index)=>{
+                const rates = rule.rates;
+                let rateDom = [];
+                rates.map((rate, index)=>{
+                  rateDom.push(
+                    <Col key={index} span="4.8" style={{height: 35, marginLeft: 10}}>
+                      <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index}:</label>
+                      <InputNumber
+                        onBlur={(v)=>{this.doUpdateRate(v, index)}}
+                        value={rate}/>
+                    </Col>
+                  )
+                });
+                rates.map((rate, index)=>{
+                  rateDom.push(
+                    <Col key={index+14} span="4.8" style={{height: 35, marginLeft: 10}}>
+                      <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index+14}:</label>
+                      <InputNumber
+                        onChange={(v)=>{this.onChange(v, index)}}
+                        value={rates[13-index]}/>
+                    </Col>
+                  )
+                });
+                return (
+                  <Row type='flex' key={index} >
+                    <Col span="24" style={{height: 35, fontSize: 14}}>
+                      <label style={{fontSize: 15}}>{rule.name}</label>
+                      <label style={{fontSize: 15, marginLeft: 20}}>
+                        <a onClick={()=>{this.updateRate(2, index)}}>修改赔率</a>
+                      </label>
+                    </Col>
+                    {rateDom}
+                  </Row>
+                )
+              })}
+            </div>
+          </TabPane>
+          <TabPane tab={<span>13,14数字赔率设置</span>} key="3">
+            <SpecialGameRules />
+          </TabPane>
 
-            rates.map((rate, index)=>{
-              rateDom.push(
-                <Col key={index} span="4.8" style={{height: 35, marginLeft: 10}}>
-                  <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index}:</label>
-                  <InputNumber
-                    onBlur={(v)=>{this.doUpdateRate(v, index)}}
-                    value={rate}/>
-                </Col>
-              )
-            });
-
-            rates.map((rate, index)=>{
-              rateDom.push(
-                <Col key={index+14} span="4.8" style={{height: 35, marginLeft: 10}}>
-                  <label style={{textAlign: 'right', marginRight: 10, fontSize: 14, width: 50, display: 'inline-block'}}>{index+14}:</label>
-                  <InputNumber
-                    onChange={(v)=>{this.onChange(v, index)}}
-                    value={rates[13-index]}/>
-                </Col>
-              )
-            });
-
-            return (
-              <Row type='flex' key={index} >
-                <Col span="24" style={{height: 35, fontSize: 14}}>
-                  <label style={{fontSize: 15}}>{rule.name}</label>
-                  <label style={{fontSize: 15, marginLeft: 20}}>
-                    <a onClick={()=>{this.updateRate(2, index)}}>修改赔率</a>
-                  </label>
-                </Col>
-                {rateDom}
-              </Row>
-            )
-          })}
-        </div>
+        </Tabs>
 
         {this.state.showAddCombine?
           <AddCombineRules hideFunc={()=>{this.setState({showAddCombine: false})}}

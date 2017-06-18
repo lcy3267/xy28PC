@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Table} from 'antd';
-import AddRollbackRule from '../../components/AddRollbackRule';
+import AddSpecialGameRule from '../../components/AddSpecialGameRule';
 
 class Rooms extends Component {
   // 构造
@@ -9,7 +9,7 @@ class Rooms extends Component {
     super(props);
     // 初始状态
     this.state = {
-      rollbackRules: [],
+      specialGameRules: [],
       showAdd: false,
     };
   }
@@ -20,19 +20,16 @@ class Rooms extends Component {
 
   loadRules = ()=>{
     this.props.dispatch({
-      type: 'system/rollbackRules',
-      callback: (rollbackRules)=>{
-        this.setState({rollbackRules})
+      type: 'lottery/specialGameRules',
+      callback: (specialGameRules)=>{
+        this.setState({specialGameRules})
       }
     });
   }
 
   columns = [
     {title: '规则名称', dataIndex: 'name',},
-    {
-      title: '对应房间等级', dataIndex: 'rule_level',
-      render: (text)=>text == 1?'初级':text == 2?'中级':text == 3?'高级':''
-    },
+    {title: '规则类型', dataIndex: 'rule_type',render: (text)=>text == 1?'大小单双':'组合'},
     {
       title: 'level1', dataIndex: 'level1',
       render: (text, record)=>this.loadLevels(record, 1)
@@ -44,10 +41,6 @@ class Rooms extends Component {
     {
       title: 'level3', dataIndex: 'level3',
       render: (text, record)=>this.loadLevels(record, 3)
-    },
-    {
-      title: 'level4', dataIndex: 'level4',
-      render: (text, record)=>this.loadLevels(record, 4)
     },
     {
       title: '操作', dataIndex: 'operation',
@@ -64,8 +57,8 @@ class Rooms extends Component {
     let key = "level_"+number;
     let nextKey = "level_"+(number + 1);
 
-    let str = number == 4? `${records[key]+1} 及以上` : `${number !== 1 ?records[key]+1 : records[key]} ~ ${records[nextKey]}`
-    str += `(回水率: ${records[`rate_${number}`]}%)`;
+    let str = number == 3? `${records[key]+1} 及以上` : `${number !== 1 ?records[key]+1 : records[key]} ~ ${records[nextKey]}`
+    str += `(陪率: ${records[`rate_${number}`]})`;
     return str;
   }
 
@@ -78,22 +71,14 @@ class Rooms extends Component {
     return (
       <div>
         <div style={{fontSize: 15,height: 30}}>
-          <span>回水条件设置</span>
-        </div>
-        <div>
-
-        </div>
-
-        <div style={{fontSize: 15,height: 30}}>
-          <span>回水规则列表</span>
           <span style={{marginLeft: 20}}>
-            <a onClick={()=>{this.setState({showAdd: true, rule: null})}}>添加回水规则</a>
+            <a onClick={()=>{this.setState({showAdd: true, rule: null})}}>添加赔率规则</a>
           </span>
         </div>
         <Table
           rowKey={record => record.id}
-          dataSource={ this.state.rollbackRules } columns={this.columns}/>
-        {this.state.showAdd?<AddRollbackRule hideFunc={()=>{this.setState({showAdd: false})}}
+          dataSource={ this.state.specialGameRules } columns={this.columns}/>
+        {this.state.showAdd?<AddSpecialGameRule hideFunc={()=>{this.setState({showAdd: false})}}
                                              rule={this.state.rule} callback={this.addCallback}/>:null}
       </div>
     );

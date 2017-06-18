@@ -102,7 +102,7 @@ class AddSingleRules extends Component {
         visible={true}
         onOk={this.doSave}
         onCancel={this.props.hideFunc}
-        okText={this.state.id?'修改':'"添加"'}
+        okText={this.state.id?'修改':'添加'}
         maskClosable={false}
         width={800}
       >
