@@ -7,6 +7,7 @@ export default {
     getList: 'GET /users/admin/list',
     updateUserSpeak: 'PUT /users/admin/updateUserSpeak',
     updateUserBottom: 'PUT /users/admin/updateUserBottom',
+    integralChangeRecords: 'GET /users/admin/integralChangeRecords',//
   },
   recharge: {
     list: "GET /recharge/admin/list",
@@ -39,6 +40,8 @@ export default {
     updateRoomStatus: 'PUT /system/admin/updateRoomStatus',
     updateRoomSpeak: 'PUT /system/admin/updateRoomSpeak',
     updateRollbackRules: 'PUT /system/admin/updateRollbackRules',
+    getBetLimit: 'GET /system/admin/betLimit',
+    saveBetLimit: 'PUT /system/admin/saveBetLimit',
   },
   message: {
     addMessage: 'POST /message/admin/addMessage',

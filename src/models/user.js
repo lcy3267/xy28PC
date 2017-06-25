@@ -20,14 +20,21 @@ export default {
         errCallback && errCallback();
       }
     },
-    *getUsers({params, errCallback }, { put }){
+    *getUsers({params, callback, isSetList = true }, { put }){
       let rs = yield sendRequest(user.getList, params);
       if(rs && rs.err_code == 0){
-        yield put({ type: 'list', list: rs.users});
-      }else{
-        errCallback && errCallback();
+        if(isSetList){
+          yield put({ type: 'list', list: rs.users});
+        }
+        callback && callback(rs.users)
       }
-    }, 
+    },
+    *integralChangeRecords({params, callback}, { put }){
+      let rs = yield sendRequest(user.integralChangeRecords, params);
+      if(rs && rs.err_code == 0){
+        callback && callback(rs)
+      }
+    },
     *updateUserSpeak({params, callback }, { put }){
       let rs = yield sendRequest(user.updateUserSpeak, params);
       if(rs && rs.err_code == 0){

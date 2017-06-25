@@ -58,6 +58,18 @@ export default {
         callback && callback();
       }
     },
+    *getBetLimit({callback}){
+      let rs = yield sendRequest(system.getBetLimit);
+      if(rs && rs.err_code == 0){
+        callback && callback(rs.limit);
+      }
+    },
+    *saveBetLimit({params, callback}){
+      let rs = yield sendRequest(system.saveBetLimit, params);
+      if(rs && rs.err_code == 0){
+        callback && callback();
+      }
+    },
   },
 
   reducers: {

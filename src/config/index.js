@@ -1,7 +1,7 @@
 ﻿export default {
   //db 地址
-  //apiDomain: "http://192.168.0.101:3000",
-	apiDomain: "http://39.108.105.220:3000",//服务器地址
+  apiDomain: "http://192.168.0.101:3000",
+	//apiDomain: "http://39.108.105.220:3000",//服务器地址
   pageSize: 10, //分页size
   md5Key: 'yuan',//md5加密的前缀
   cookieUserName:"username",

@@ -37,14 +37,7 @@ class Slider extends Component{
         child: [
           {title: '玩家列表', router: '/usersList'},
           {title: '玩家充值记录', router: '/rechargeList'},
-        ]
-      },
-      {
-        title: '消息管理',
-        icon: 'switcher',
-        child: [
-          {title: '发系统消息', router: '/addMessage'},
-          {title: '系统消息列表', router: '/systemList'},
+          {title: '玩家账变记录', router: '/userIntegralChange'},
         ]
       },
       {
@@ -65,10 +58,19 @@ class Slider extends Component{
         ]
       },
       {
+        title: '消息管理',
+        icon: 'switcher',
+        child: [
+          {title: '发系统消息', router: '/addMessage'},
+          {title: '系统消息列表', router: '/systemList'},
+        ]
+      },
+      {
         title: '系统设置',
         icon: 'setting',
         child: [
           {title: '房间设置', router: '/rooms'},
+          {title: '下注金额设置', router: '/betLimit'},
           {title: '赔率设置', router: '/gameRules'},
           {title: '回水规则设置', router: '/rollbackRules'},
         ]

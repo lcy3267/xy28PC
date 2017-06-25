@@ -66,7 +66,7 @@ class RollbackRecord extends Component {
             <DatePicker
               onChange={this.onChange} style={{margin: '0 20px'}}/>
           </span>
-          <span>玩家回水计算</span>
+          <span>玩家回水记录</span>
         </div>
         <Table
           rowKey={record => record.id}

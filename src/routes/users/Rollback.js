@@ -36,19 +36,19 @@ class Rollback extends Component {
     {title: '昵称', dataIndex: 'name',},
     {title: '下注总额', dataIndex: 'sum_integral',},
     {title: '盈亏金额', dataIndex: 'win_integral',},
-    {title: '初级房盈亏金额', dataIndex: 'first_num',},
-    {title: '中级房盈亏金额', dataIndex: 'middle_num',},
-    {title: '高级房盈亏金额', dataIndex: 'higher_num',},
     {title: '下注次数', dataIndex: 'num',},
-    {title: '组合次数', dataIndex: 'combines',},
+    {title: '组合下注积分', dataIndex: 'combine_integral',},
     {
       title: '组合占比', dataIndex: 'rate',
       render: (text, record)=>{
-        let num = (record.combines/record.num)*100;
+        let num = (record.combine_integral/record.sum_integral)*100;
         return num.toFixed(2)+'%'
       }
     },
-    {title: '单点次数', dataIndex: 'point',},
+    {title: '单点积分', dataIndex: 'point_integral',},
+    {title: '初级房盈亏金额', dataIndex: 'first_num',},
+    {title: '中级房盈亏金额', dataIndex: 'middle_num',},
+    {title: '高级房盈亏金额', dataIndex: 'higher_num',},
     {title: '北京房下注金额', dataIndex: 'bj',},
     {title: '加拿大房下注金额', dataIndex: 'cnd',},
   ];
@@ -86,7 +86,7 @@ class Rollback extends Component {
               onChange={this.onChange} style={{margin: '0 20px'}}/>
           </span>
           <span>玩家回水计算</span>
-          <a onClick={this.doRollback}>回水到玩家账号</a>
+          <a style={{marginLeft: 20}} onClick={this.doRollback}>回水到玩家账号</a>
         </div>
         <Table
           rowKey={record => record.user_id}
